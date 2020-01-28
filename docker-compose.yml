@@ -1,0 +1,40 @@
+version: '3'
+
+networks:
+  pizza-net:
+      driver: bridge
+
+services:
+
+  pizza_app:
+    build: .
+    container_name: pizza_app
+    environment:
+      - DB_URL=postgres://postgres:@192.168.99.100:5432/postgres
+    volumes:
+      - ./pizza_app:/src/pizza_app
+    ports:
+      - "3000:3000"
+    links:
+      - pizza_postgres
+    networks:
+      - pizza-net
+    depends_on:
+      - pizza_postgres
+    restart: always
+
+  pizza_postgres:
+    image: "postgres:9.6-alpine"
+    container_name: pizza_postgres
+    volumes:
+      - pizza_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB:postgres
+      - POSTGRES_USER:postgres
+    networks:
+      - pizza-net
+
+volumes:
+  pizza_data:

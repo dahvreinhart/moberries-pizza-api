@@ -1,0 +1,8 @@
+const path = require('path');
+
+module.exports = {
+  "config": path.resolve('./pizz_app/config', 'config.json'),
+  "models-path": path.resolve('./pizz_app/models'),
+  "seeders-path": path.resolve('./pizz_app/seeders'),
+  "migrations-path": path.resolve('./pizz_app/migrations')
+};
